@@ -162,8 +162,15 @@ int cbor_encoder_array(uint32_t len)
   if( len <= 0x17 )
   {
     __outchar_fn( 0x80 + (uint8_t) len, priv );
+  } else if( len <= 0xFF ) {
+    __outchar_fn( 0x98, priv );
+    __outchar_fn( (uint8_t) len, priv );
+  } else if ( len <= 0xFFFF ) {
+    __outchar_fn( 0x99, priv );
+    __outbytes( (uint8_t*) &len, sizeof(uint16_t) );
   } else {
-    assert(0);
+    __outchar_fn( 0x9a, priv );
+    __outbytes( (uint8_t*) &len, sizeof(uint32_t) );
   }
   return 0;
 }
