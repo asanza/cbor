@@ -5,6 +5,10 @@
 static __write_byte_t __outchar_fn;
 static void* priv;
 
+#if __BYTE_ORDER__ != __ORDER_LITTLE_ENDIAN__
+  #error "for big endians, __outbytes must be changed"
+#endif
+
 static int __outbytes(const uint8_t* bytes, int len)
 {
   bytes = bytes + len;
@@ -93,7 +97,7 @@ int cbor_encoder_int16( int16_t val )
   uint16_t mt = ui & 0x20;
   ui ^= val;
  
-  if( ui < 256) {
+  if( ui <= 0xFFU ) {
     return cbor_encoder_int8(val);
   }
 
@@ -109,7 +113,7 @@ int cbor_encoder_int32( int32_t val )
   uint32_t mt = ui & 0x20;
   ui ^= val;
  
-  if( ui <= 0xFFFF ) {
+  if( ui <= 0xFFFFU ) {
     return cbor_encoder_int16(val);
   }
 
@@ -120,7 +124,17 @@ int cbor_encoder_int32( int32_t val )
 
 int cbor_encoder_int64( int64_t val )
 {
-  return 0;
+  uint64_t ui = val >> 63;
+  uint64_t mt = ui & 0x20;
+  ui ^= val;
+ 
+  if( ui <= 0xFFFFFFFFU ) {
+    return cbor_encoder_int32(val);
+  }
+
+  __outchar_fn( mt + 27, priv );
+  __outbytes((uint8_t*) &ui, sizeof(int64_t));
+  return(0);
 }
 
 int cbor_encoder_bytearray(const char* bytearray)
