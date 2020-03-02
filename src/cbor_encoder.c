@@ -14,6 +14,14 @@
   #error "for big endians, __outbytes must be changed"
 #endif
 
+/**
+ * @brief Output a byte array to the output stream
+ * 
+ * @param f  the output stream
+ * @param bytes byte array to send
+ * @param len  length of the byte array
+ * @return int 
+ */
 static int __outbytes(const struct stream_out* f, const uint8_t* bytes, int len)
 {
   bytes = bytes + len;
@@ -25,6 +33,13 @@ static int __outbytes(const struct stream_out* f, const uint8_t* bytes, int len)
   return 0;
 }
 
+/**
+ * @brief output the encoded value to the output stream
+ * 
+ * @param f  the output stream 
+ * @param val  value to be encoded.
+ * @return int 
+ */
 int cbor_encoder_uint8(const struct stream_out* f, uint8_t val)
 {
   if( val > 23 )
