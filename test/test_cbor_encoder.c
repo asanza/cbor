@@ -1,3 +1,11 @@
+/*
+ * File: test_cbor_encoder.c
+ * 
+ * Copyright (c) 2020 Diego Asanza <f.asanza@gmail.com>
+ * 
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 #include "cbor_encoder.h"
 #include "unity.h"
 #include <string.h>
