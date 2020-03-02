@@ -63,3 +63,11 @@ void test_cbor_encoder_array(void) {
       "\x11\x12\x13\x14\x15\x16",
       fout.buffer, 1, 24);
 }
+
+void test_cbor_encoder_float(void) {
+  struct fout fout;
+  memset(&fout, 0, sizeof(fout));
+
+  cbor_encoder_float(1.890425205230713);
+  TEST_ASSERT_EQUAL_MEMORY_ARRAY("\xFA\x3F\xF1\xF9\x74", fout.buffer, 1, 5);
+}

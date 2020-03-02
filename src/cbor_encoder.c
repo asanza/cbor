@@ -1,3 +1,11 @@
+/*
+ * File: cbor_encoder.c
+ * 
+ * Copyright (c) 2020 Diego Asanza <f.asanza@gmail.com>
+ * 
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 #include "cbor_encoder.h"
 #include <assert.h>
 #include <string.h>
@@ -205,3 +213,9 @@ int cbor_encoder_utf8(const char* str)
   __outbytes(str, n);
   return 0;
 } 
+
+int cbor_encoder_float( float val )
+{
+  __outchar_fn(0xfa, priv);
+  __outbytes((uint8_t*) &val, sizeof(float));
+}

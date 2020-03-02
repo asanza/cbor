@@ -1,3 +1,11 @@
+/*
+ * File: cbor_encoder.h
+ * 
+ * Copyright (c) 2020 Diego Asanza <f.asanza@gmail.com>
+ * 
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 #ifndef _CBOR_ENCODER_H
 #define _CBOR_ENCODER_H
 
@@ -32,7 +40,7 @@ int cbor_encoder_map( uint32_t len );
 
 int cbor_encoder_map();
 
-int cbor_encoder_float( void );
+int cbor_encoder_float( float val );
 
 
 #endif // _CBOR_ENCODER_H
